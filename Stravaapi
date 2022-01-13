@@ -1,0 +1,28 @@
+import requests
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+auth_url = "https://www.strava.com/oauth/token"
+activites_url = "https://www.strava.com/api/v3/athlete/activities"
+
+payload = {
+    'client_id': "76571",
+    'client_secret': '0f94a401bc48a0309db35e1bfcabf48e8638b416',
+    'refresh_token': '5fee084a3a6f508226832571c6a0a6fdcbd63278',
+    'grant_type': "refresh_token",
+    'f': 'json'
+}
+
+print("Requesting Token...\n")
+res = requests.post(auth_url, data=payload, verify=False)
+access_token = res.json()['access_token']
+print("Access Token = {}\n".format(access_token))
+
+header = {'Authorization': 'Bearer ' + access_token}
+param = {'per_page': 200, 'page': 1}
+my_dataset = requests.get(activites_url, headers=header, params=param).json()
+
+for i in range(len(my_dataset)):
+    if(my_dataset[i]["type"]) == "Ride":
+        print(my_dataset[i]["name"])
+#print(my_dataset[0]["map"]["summary_polyline"])
