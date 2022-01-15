@@ -1,6 +1,11 @@
 #lines 2-25 borrowed from franchyze923 (https://github.com/franchyze923/Code_From_Tutorials/blob/master/Strava_Api/strava_api.py)
 import requests
 import urllib3
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from IPython.display import display
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 auth_url = "https://www.strava.com/oauth/token"
@@ -23,7 +28,17 @@ header = {'Authorization': 'Bearer ' + access_token}
 param = {'per_page': 200, 'page': 1}
 my_dataset = requests.get(activites_url, headers=header, params=param).json()
 
-for i in range(len(my_dataset)):
-    if(my_dataset[i]["type"]) == "Ride":
-        print(my_dataset[i]["name"])
-#print(my_dataset[0]["map"]["summary_polyline"])
+print(my_dataset[0])
+stravaposts = pd.json_normalize(my_dataset)
+cols = ['name', 'type', 'distance', 'moving_time',
+         'average_speed', 'max_speed','total_elevation_gain',
+         'start_date_local', 'average_cadence', 'average_heartrate',
+       ]
+stravaposts = stravaposts[cols]
+types = []
+for i in stravaposts['type']:
+    if i not in types:
+        types.append(i)
+
+stravaposts.groupby(['type']).sum().plot(kind='pie', y='distance', autopct='%1.0f%%')
+plt.show()
