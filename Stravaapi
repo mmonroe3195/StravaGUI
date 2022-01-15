@@ -70,12 +70,10 @@ for i in range(len(stravaposts['distance'])):
 
 
 total_dist /= 1609.344 #coverting meters to miles
-print("You traveled a total distance of " + str(total_dist) + " miles with Strava!")
-print(f'You biked a total distance of {total_bike_dist / 1609.344} miles.\n')
-print(f'You ran a total distance of {total_run_dist / 1609.344} miles.\n')
-print(f'You walked a total distance of {total_walk_dist / 1609.344} miles.\n')
-print(f'You swam a total distance of {total_swim_dist / 1609.344} miles.\n')
-print(f'You kayaked a total distance of {total_kayak_dist / 1609.344} miles.\n')
-print(f'You hiked a total distance of {total_hike_dist / 1609.344} miles.\n')
-
-print(total_bike_dist / 1609.344 + total_run_dist / 1609.344 + total_walk_dist / 1609.344 + total_swim_dist / 1609.344 + total_kayak_dist / 1609.344 + total_hike_dist / 1609.344)
+print(f'You traveled a total distance of {round(total_dist, 2)} miles with Strava.\n')
+print(f'You biked a total distance of {round(total_bike_dist / 1609.344, 2)} miles.\n')
+print(f'You ran a total distance of {round(total_run_dist / 1609.344, 2)} miles.\n')
+print(f'You walked a total distance of {round(total_walk_dist / 1609.344, 2)} miles.\n')
+print(f'You swam a total distance of {round(total_swim_dist / 1609.344, 2)} miles.\n')
+print(f'You kayaked a total distance of {round(total_kayak_dist / 1609.344, 2)} miles.\n')
+print(f'You hiked a total distance of {round(total_hike_dist / 1609.344, 2)} miles.\n')
