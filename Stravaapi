@@ -35,10 +35,13 @@ cols = ['name', 'type', 'distance', 'moving_time',
          'start_date_local', 'average_cadence', 'average_heartrate',
        ]
 stravaposts = stravaposts[cols]
-types = []
-for i in stravaposts['type']:
-    if i not in types:
-        types.append(i)
 
 stravaposts.groupby(['type']).sum().plot(kind='pie', y='distance', autopct='%1.0f%%')
 plt.show()
+
+dist = 0
+for i in stravaposts['distance']:
+    dist += i
+
+dist /= 1609.344 #coverting meters to miles
+print("You went a total distance of " + str(dist) + " miles on Strava!")
