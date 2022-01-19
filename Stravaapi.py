@@ -1,4 +1,4 @@
-#lines 2-25 borrowed from franchyze923 (https://github.com/franchyze923/Code_From_Tutorials/blob/master/Strava_Api/strava_api.py)
+#lines 9-27 borrowed from franchyze923 (https://github.com/franchyze923/Code_From_Tutorials/blob/master/Strava_Api/strava_api.py)
 import requests
 import urllib3
 import pandas as pd
