@@ -25,16 +25,37 @@ access_token = res.json()['access_token']
 print("Access Token = {}\n".format(access_token))
 
 header = {'Authorization': 'Bearer ' + access_token}
-param = {'per_page': 200, 'page': 1}
-my_dataset = requests.get(activites_url, headers=header, params=param).json()
 
-stravaposts = pd.json_normalize(my_dataset)
+i = 1
+dataset = []
+
+#can only get 200 results max at a time.
+#must loop through to check if there are multiple pages of data
+while True:
+    param = {'per_page': 200, 'page': i}
+    currdataset = requests.get(activites_url, headers=header, params=param).json()
+
+    if not currdataset:
+        break
+
+    else:
+        dataset += currdataset
+        i += 1
+
+stravaposts = pd.json_normalize(dataset)
+
 cols = ['name', 'type', 'distance', 'moving_time',
          'average_speed', 'max_speed','total_elevation_gain',
          'start_date_local', 'average_cadence', 'average_heartrate',
        ]
 stravaposts = stravaposts[cols]
 
+#getting the years on activities
+years = [stravaposts.at[0, 'start_date_local'][:4]]
+for i in range(len(stravaposts['start_date_local'])):
+    if stravaposts.at[i,'start_date_local'][:4] != years[-1]:
+        years.append(stravaposts.at[i,'start_date_local'][:4])
+print(years)
 stravaposts.groupby(['type']).sum().plot(kind='pie', y='distance', autopct='%1.0f%%')
 #plt.show() #shows the pie chart
 
