@@ -43,7 +43,6 @@ while True:
         i += 1
 
 stravaposts = pd.json_normalize(dataset)
-
 cols = ['name', 'type', 'distance', 'moving_time',
          'average_speed', 'max_speed','total_elevation_gain',
          'start_date_local', 'average_cadence', 'average_heartrate',
@@ -53,56 +52,62 @@ stravaposts = stravaposts[cols]
 #getting the years on activities
 years = [stravaposts.at[0, 'start_date_local'][:4]]
 for i in range(len(stravaposts['start_date_local'])):
-    if stravaposts.at[i,'start_date_local'][:4] != years[-1]:
+    if stravaposts.at[i,'start_date_local'][:4] != years[-1]: #adds a new year if the year hasn't been recorded yet
         years.append(stravaposts.at[i,'start_date_local'][:4])
-print(years)
+
 stravaposts.groupby(['type']).sum().plot(kind='pie', y='distance', autopct='%1.0f%%')
 #plt.show() #shows the pie chart
 
-total_dist = total_bike_dist = total_run_dist = 0
-total_walk_dist = total_kayak_dist = total_hike_dist = total_swim_dist= 0
+def statCalculator(year):
+    total_dist = total_bike_dist = total_run_dist = total_workout_dist = 0
+    total_walk_dist = total_kayak_dist = total_hike_dist = total_swim_dist= 0
+    for i in range(len(stravaposts['distance'])):
+        if stravaposts.at[i,'start_date_local'][:4] == year or year == "All":
+            total_dist += stravaposts.at[i,'distance']
+
+            if stravaposts.at[i,'type'] == 'Ride':
+                total_bike_dist += stravaposts.at[i,'distance']
+
+            elif stravaposts.at[i,'type'] == 'Run':
+                total_run_dist += stravaposts.at[i,'distance']
+
+            elif stravaposts.at[i,'type'] == 'Walk':
+                total_walk_dist += stravaposts.at[i,'distance']
+
+            elif stravaposts.at[i,'type'] == 'Hike':
+                total_hike_dist += stravaposts.at[i,'distance']
+
+            elif stravaposts.at[i,'type'] == 'Kayaking':
+                total_kayak_dist += stravaposts.at[i,'distance']
+
+            elif stravaposts.at[i,'type'] == 'Swim':
+                total_swim_dist += stravaposts.at[i,'distance']
+
+            elif stravaposts.at[i,'type'] == 'Workout':
+                total_workout_dist += stravaposts.at[i,'distance']
+
+    total_dist /= 1609.344 #converting meters to miles
+    total_run_dist /= 1609.344
+    total_bike_dist /= 1609.344
+    total_walk_dist /= 1609.344
+    total_hike_dist /= 1609.344
+    total_kayak_dist /= 1609.344
+    total_swim_dist /= 1609.344
+    total_workout_dist /= 1609.344
+
+    print(f'You traveled a total distance of {round(total_dist, 2)} miles with Strava.\n')
+    print(f'You biked a total distance of {round(total_bike_dist, 2)} miles.\n')
+    print(f'You ran a total distance of {round(total_run_dist, 2)} miles.\n')
+    print(f'You walked a total distance of {round(total_walk_dist, 2)} miles.\n')
+    print(f'You swam a total distance of {round(total_swim_dist, 2)} miles.\n')
+    print(f'You kayaked a total distance of {round(total_kayak_dist, 2)} miles.\n')
+    print(f'You hiked a total distance of {round(total_hike_dist, 2)} miles.\n')
+
+    distancedf = pd.DataFrame({'Activity':['Run', 'Bike', 'Hike', 'Swim', 'Walk', 'Kayak'], 'Distance (miles)':[total_run_dist, total_bike_dist, total_hike_dist, total_swim_dist, total_walk_dist, total_kayak_dist]})
+    display(distancedf)
+    ax = distancedf.plot.bar(x = 'Activity', y = 'Distance (miles)', rot=0)
 
 
-for i in range(len(stravaposts['distance'])):
-    total_dist += stravaposts.at[i,'distance']
+statCalculator("2019")
 
-    if stravaposts.at[i,'type'] == 'Ride':
-        total_bike_dist += stravaposts.at[i,'distance']
-
-    elif stravaposts.at[i,'type'] == 'Run':
-        total_run_dist += stravaposts.at[i,'distance']
-
-    elif stravaposts.at[i,'type'] == 'Walk':
-        total_walk_dist += stravaposts.at[i,'distance']
-
-    elif stravaposts.at[i,'type'] == 'Hike':
-        total_hike_dist += stravaposts.at[i,'distance']
-
-    elif stravaposts.at[i,'type'] == 'Kayaking':
-        total_kayak_dist += stravaposts.at[i,'distance']
-
-    elif stravaposts.at[i,'type'] == 'Swim':
-        total_swim_dist += stravaposts.at[i,'distance']
-
-total_dist /= 1609.344 #converting meters to miles
-total_run_dist /= 1609.344
-total_bike_dist /= 1609.344
-total_walk_dist /= 1609.344
-total_hike_dist /= 1609.344
-total_kayak_dist /= 1609.344
-total_swim_dist /= 1609.344
-
-print(f'You traveled a total distance of {round(total_dist, 2)} miles with Strava.\n')
-print(f'You biked a total distance of {round(total_bike_dist, 2)} miles.\n')
-print(f'You ran a total distance of {round(total_run_dist, 2)} miles.\n')
-print(f'You walked a total distance of {round(total_walk_dist, 2)} miles.\n')
-print(f'You swam a total distance of {round(total_swim_dist, 2)} miles.\n')
-print(f'You kayaked a total distance of {round(total_kayak_dist, 2)} miles.\n')
-print(f'You hiked a total distance of {round(total_hike_dist, 2)} miles.\n')
-
-distancedf = pd.DataFrame({'Activity':['Run', 'Bike', 'Hike', 'Swim', 'Walk', 'Kayak'], 'Distance (miles)':[total_run_dist, total_bike_dist, total_hike_dist, total_swim_dist, total_walk_dist, total_kayak_dist]})
-
-
-display(distancedf)
-ax = distancedf.plot.bar(x = 'Activity', y = 'Distance (miles)', rot=0)
-plt.show();
+#plt.show();

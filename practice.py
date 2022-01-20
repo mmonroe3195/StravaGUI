@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
 
         for i in range(len(years) + 1):
             self.yearcombobox.addItem("")
-            
+
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 10, 261, 21))
         font = QtGui.QFont()
@@ -77,7 +77,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.yearcombobox.setItemText(0, _translate("MainWindow", "Year"))
+        self.yearcombobox.setItemText(0, _translate("MainWindow", "All"))
 
         for i in range(len(years)):
             self.yearcombobox.setItemText(i + 1, _translate("MainWindow", years[i]))
