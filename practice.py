@@ -9,7 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Stravaapi import years
+from Stravaapi import years, activitytypes
+
 
 
 class Ui_MainWindow(object):
@@ -38,10 +39,10 @@ class Ui_MainWindow(object):
         self.actComboBox = QtWidgets.QComboBox(self.centralwidget)
         self.actComboBox.setGeometry(QtCore.QRect(270, 40, 101, 22))
         self.actComboBox.setObjectName("actComboBox")
-        self.actComboBox.addItem("")
-        self.actComboBox.addItem("")
-        self.actComboBox.addItem("")
-        self.actComboBox.addItem("")
+
+        for i in range(len(activitytypes) + 1):
+            self.actComboBox.addItem("")
+
         self.actComboBox.setItemText(3, "")
         self.monthComboBox = QtWidgets.QComboBox(self.centralwidget)
         self.monthComboBox.setGeometry(QtCore.QRect(140, 40, 101, 22))
@@ -84,8 +85,10 @@ class Ui_MainWindow(object):
 
         self.label.setText(_translate("MainWindow", "Select a Year to View Statistics for:"))
         self.actComboBox.setItemText(0, _translate("MainWindow", "All Activities"))
-        self.actComboBox.setItemText(1, _translate("MainWindow", "Bike"))
-        self.actComboBox.setItemText(2, _translate("MainWindow", "Run"))
+
+        for i in range(len(activitytypes)):
+            self.actComboBox.setItemText(i + 1, _translate("MainWindow", activitytypes[i]))
+
         self.monthComboBox.setItemText(0, _translate("MainWindow", "All Months"))
         self.monthComboBox.setItemText(1, _translate("MainWindow", "January"))
         self.monthComboBox.setItemText(2, _translate("MainWindow", "Feburary"))

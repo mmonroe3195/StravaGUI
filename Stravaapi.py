@@ -51,10 +51,15 @@ stravaposts = stravaposts[cols]
 
 #getting the years on activities
 years = [stravaposts.at[0, 'start_date_local'][:4]]
+activitytypes = [stravaposts.at[0, 'type']]
 for i in range(len(stravaposts['start_date_local'])):
     if stravaposts.at[i,'start_date_local'][:4] != years[-1]: #adds a new year if the year hasn't been recorded yet
         years.append(stravaposts.at[i,'start_date_local'][:4])
 
+    if stravaposts.at[i, 'type'] not in activitytypes:
+        activitytypes.append(stravaposts.at[i,'type'])
+
+print(activitytypes)
 stravaposts.groupby(['type']).sum().plot(kind='pie', y='distance', autopct='%1.0f%%')
 #plt.show() #shows the pie chart
 
