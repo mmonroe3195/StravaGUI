@@ -59,7 +59,7 @@ class Ui_MainWindow(object):
         self.monthComboBox.addItem("")
         self.monthComboBox.addItem("")
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget.setGeometry(QtCore.QRect(60, 140, 471, 140))
+        self.listWidget.setGeometry(QtCore.QRect(60, 140, 471, 145))
         self.listWidget.setObjectName("listWidget")
 
         for i in range(len(activitytypes) + 1):
@@ -83,6 +83,17 @@ class Ui_MainWindow(object):
         self.monthlabel = QtWidgets.QLabel(self.centralwidget)
         self.monthlabel.setGeometry(QtCore.QRect(296, 50, 71, 16))
         self.monthlabel.setObjectName("monthlabel")
+
+        self.PieChartBtn = QtWidgets.QPushButton(self.centralwidget)
+        self.PieChartBtn.setEnabled(False)
+        self.PieChartBtn.setGeometry(QtCore.QRect(190, 320, 91, 51))
+        self.PieChartBtn.setCheckable(False)
+        self.PieChartBtn.setDefault(False)
+        self.PieChartBtn.setObjectName("PieChartBtn")
+        self.BarGraphBtn = QtWidgets.QPushButton(self.centralwidget)
+        self.BarGraphBtn.setEnabled(False)
+        self.BarGraphBtn.setGeometry(QtCore.QRect(300, 320, 91, 51))
+        self.BarGraphBtn.setObjectName("BarGraphBtn")
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -142,6 +153,9 @@ class Ui_MainWindow(object):
         self.monthlabel.setText(_translate("MainWindow", "Month:"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
 
+        self.PieChartBtn.setText(_translate("MainWindow", "Pie Chart"))
+        self.BarGraphBtn.setText(_translate("MainWindow", "Bar Graph"))
+
         self.menuFile.setTitle(_translate("MainWindow", "File"))
 
     def pressed(self):
@@ -180,6 +194,9 @@ class Ui_MainWindow(object):
             if self.actComboBox.currentText() == activitytypes[i] or self.actComboBox.currentText() == "All Activities":
                 item = self.listWidget.item(i + 1)
                 item.setText(_translate("MainWindow", "Your " + activitytypes[i]+ " total with Strava was "+ str(round(distances[i],2)) + " miles."))
+
+        self.PieChartBtn.setEnabled(True)
+        self.BarGraphBtn.setEnabled(True)
 
 if __name__ == "__main__":
     import sys
