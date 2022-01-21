@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
         self.label1.setText("")
         self.label1.setObjectName("label1")
         self.yearcombobox = QtWidgets.QComboBox(self.centralwidget)
-        self.yearcombobox.setGeometry(QtCore.QRect(10, 40, 101, 22))
+        self.yearcombobox.setGeometry(QtCore.QRect(10, 70, 115, 22))
         self.yearcombobox.setObjectName("yearcombobox")
 
         for i in range(len(years) + 1):
@@ -35,7 +35,7 @@ class Ui_MainWindow(object):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.actComboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.actComboBox.setGeometry(QtCore.QRect(270, 40, 101, 22))
+        self.actComboBox.setGeometry(QtCore.QRect(140, 70, 115, 22))
         self.actComboBox.setObjectName("actComboBox")
 
         for i in range(len(activitytypes) + 1):
@@ -43,7 +43,7 @@ class Ui_MainWindow(object):
 
         self.actComboBox.setItemText(3, "")
         self.monthComboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.monthComboBox.setGeometry(QtCore.QRect(140, 40, 101, 22))
+        self.monthComboBox.setGeometry(QtCore.QRect(290, 70, 115, 22))
         self.monthComboBox.setObjectName("monthComboBox")
         self.monthComboBox.addItem("")
         self.monthComboBox.addItem("")
@@ -59,7 +59,7 @@ class Ui_MainWindow(object):
         self.monthComboBox.addItem("")
         self.monthComboBox.addItem("")
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget.setGeometry(QtCore.QRect(60, 140, 471, 171))
+        self.listWidget.setGeometry(QtCore.QRect(60, 140, 471, 140))
         self.listWidget.setObjectName("listWidget")
 
         for i in range(len(activitytypes) + 1):
@@ -69,8 +69,20 @@ class Ui_MainWindow(object):
             self.listWidget.addItem(item)
 
         self.StatsButton = QtWidgets.QPushButton(self.centralwidget)
-        self.StatsButton.setGeometry(QtCore.QRect(440, 20, 91, 51))
+        self.StatsButton.setGeometry(QtCore.QRect(440, 50, 100, 51))
         self.StatsButton.setObjectName("StatsButton")
+
+        self.yearlabel = QtWidgets.QLabel(self.centralwidget)
+        self.yearlabel.setGeometry(QtCore.QRect(16, 50, 60, 16))
+        self.yearlabel.setObjectName("yearlabel")
+
+        self.activitylabel = QtWidgets.QLabel(self.centralwidget)
+        self.activitylabel.setGeometry(QtCore.QRect(146, 50, 91, 16))
+        self.activitylabel.setObjectName("activitylabel")
+
+        self.monthlabel = QtWidgets.QLabel(self.centralwidget)
+        self.monthlabel.setGeometry(QtCore.QRect(296, 50, 71, 16))
+        self.monthlabel.setObjectName("monthlabel")
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -125,6 +137,10 @@ class Ui_MainWindow(object):
         #item.setText(_translate("MainWindow", "You ran a totla distance of _ with Strava."))
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.StatsButton.setText(_translate("MainWindow", "Show Stats"))
+        self.yearlabel.setText(_translate("MainWindow", "Year:"))
+        self.activitylabel.setText(_translate("MainWindow", "Activity Type:"))
+        self.monthlabel.setText(_translate("MainWindow", "Month:"))
+        self.menuFile.setTitle(_translate("MainWindow", "File"))
 
         self.menuFile.setTitle(_translate("MainWindow", "File"))
 
