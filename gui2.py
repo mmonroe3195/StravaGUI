@@ -9,8 +9,6 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Stravaapi import years, activitytypes
-
 
 
 class Ui_MainWindow(object):
@@ -26,10 +24,11 @@ class Ui_MainWindow(object):
         self.yearcombobox = QtWidgets.QComboBox(self.centralwidget)
         self.yearcombobox.setGeometry(QtCore.QRect(10, 40, 101, 22))
         self.yearcombobox.setObjectName("yearcombobox")
-
-        for i in range(len(years) + 1):
-            self.yearcombobox.addItem("")
-
+        self.yearcombobox.addItem("")
+        self.yearcombobox.addItem("")
+        self.yearcombobox.addItem("")
+        self.yearcombobox.addItem("")
+        self.yearcombobox.addItem("")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 10, 261, 21))
         font = QtGui.QFont()
@@ -39,10 +38,10 @@ class Ui_MainWindow(object):
         self.actComboBox = QtWidgets.QComboBox(self.centralwidget)
         self.actComboBox.setGeometry(QtCore.QRect(270, 40, 101, 22))
         self.actComboBox.setObjectName("actComboBox")
-
-        for i in range(len(activitytypes) + 1):
-            self.actComboBox.addItem("")
-
+        self.actComboBox.addItem("")
+        self.actComboBox.addItem("")
+        self.actComboBox.addItem("")
+        self.actComboBox.addItem("")
         self.actComboBox.setItemText(3, "")
         self.monthComboBox = QtWidgets.QComboBox(self.centralwidget)
         self.monthComboBox.setGeometry(QtCore.QRect(140, 40, 101, 22))
@@ -60,6 +59,17 @@ class Ui_MainWindow(object):
         self.monthComboBox.addItem("")
         self.monthComboBox.addItem("")
         self.monthComboBox.addItem("")
+        self.listWidget = QtWidgets.QListWidget(self.centralwidget)
+        self.listWidget.setGeometry(QtCore.QRect(60, 140, 471, 171))
+        self.listWidget.setObjectName("listWidget")
+        item = QtWidgets.QListWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        item.setFlags(QtCore.Qt.ItemIsEnabled)
+        self.listWidget.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignCenter)
+        item.setFlags(QtCore.Qt.ItemIsEnabled)
+        self.listWidget.addItem(item)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 587, 21))
@@ -79,16 +89,14 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.yearcombobox.setItemText(0, _translate("MainWindow", "All"))
-
-        for i in range(len(years)):
-            self.yearcombobox.setItemText(i + 1, _translate("MainWindow", years[i]))
-
+        self.yearcombobox.setItemText(1, _translate("MainWindow", "2018"))
+        self.yearcombobox.setItemText(2, _translate("MainWindow", "2019"))
+        self.yearcombobox.setItemText(3, _translate("MainWindow", "2020"))
+        self.yearcombobox.setItemText(4, _translate("MainWindow", "2021"))
         self.label.setText(_translate("MainWindow", "Select a Year to View Statistics for:"))
         self.actComboBox.setItemText(0, _translate("MainWindow", "All Activities"))
-
-        for i in range(len(activitytypes)):
-            self.actComboBox.setItemText(i + 1, _translate("MainWindow", activitytypes[i]))
-
+        self.actComboBox.setItemText(1, _translate("MainWindow", "Bike"))
+        self.actComboBox.setItemText(2, _translate("MainWindow", "Run"))
         self.monthComboBox.setItemText(0, _translate("MainWindow", "All Months"))
         self.monthComboBox.setItemText(1, _translate("MainWindow", "January"))
         self.monthComboBox.setItemText(2, _translate("MainWindow", "Feburary"))
@@ -102,6 +110,13 @@ class Ui_MainWindow(object):
         self.monthComboBox.setItemText(10, _translate("MainWindow", "October"))
         self.monthComboBox.setItemText(11, _translate("MainWindow", "November"))
         self.monthComboBox.setItemText(12, _translate("MainWindow", "December"))
+        __sortingEnabled = self.listWidget.isSortingEnabled()
+        self.listWidget.setSortingEnabled(False)
+        item = self.listWidget.item(0)
+        item.setText(_translate("MainWindow", "You traveled a total distnance of _ with Strava "))
+        item = self.listWidget.item(1)
+        item.setText(_translate("MainWindow", "You ran a totla distance of _ with Strava."))
+        self.listWidget.setSortingEnabled(__sortingEnabled)
         self.menuFile.setTitle(_translate("MainWindow", "File"))
 
 
