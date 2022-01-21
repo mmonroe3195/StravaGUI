@@ -59,11 +59,10 @@ for i in range(len(stravaposts['start_date_local'])):
     if stravaposts.at[i, 'type'] not in activitytypes:
         activitytypes.append(stravaposts.at[i,'type'])
 
-print(activitytypes)
 stravaposts.groupby(['type']).sum().plot(kind='pie', y='distance', autopct='%1.0f%%')
 #plt.show() #shows the pie chart
 
-def statCalculator(year):
+"""def statCalculator(year):
     total_dist = total_bike_dist = total_run_dist = total_workout_dist = 0
     total_walk_dist = total_kayak_dist = total_hike_dist = total_swim_dist= 0
     for i in range(len(stravaposts['distance'])):
@@ -113,6 +112,6 @@ def statCalculator(year):
     ax = distancedf.plot.bar(x = 'Activity', y = 'Distance (miles)', rot=0)
 
 
-statCalculator("2019")
+statCalculator("All")"""
 
 #plt.show();

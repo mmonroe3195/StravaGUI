@@ -70,6 +70,9 @@ class Ui_MainWindow(object):
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         item.setFlags(QtCore.Qt.ItemIsEnabled)
         self.listWidget.addItem(item)
+        self.StatsButton = QtWidgets.QPushButton(self.centralwidget)
+        self.StatsButton.setGeometry(QtCore.QRect(440, 20, 91, 51))
+        self.StatsButton.setObjectName("StatsButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 587, 21))
@@ -117,6 +120,7 @@ class Ui_MainWindow(object):
         item = self.listWidget.item(1)
         item.setText(_translate("MainWindow", "You ran a totla distance of _ with Strava."))
         self.listWidget.setSortingEnabled(__sortingEnabled)
+        self.StatsButton.setText(_translate("MainWindow", "Show Stats"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
 
 

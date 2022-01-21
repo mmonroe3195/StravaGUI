@@ -9,9 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Stravaapi import years, activitytypes
-
-
+from Stravaapi import years, activitytypes, stravaposts
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -63,14 +61,17 @@ class Ui_MainWindow(object):
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
         self.listWidget.setGeometry(QtCore.QRect(60, 140, 471, 171))
         self.listWidget.setObjectName("listWidget")
-        item = QtWidgets.QListWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignCenter)
-        item.setFlags(QtCore.Qt.ItemIsEnabled)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        item.setTextAlignment(QtCore.Qt.AlignCenter)
-        item.setFlags(QtCore.Qt.ItemIsEnabled)
-        self.listWidget.addItem(item)
+
+        for i in range(len(activitytypes) + 1):
+            item = QtWidgets.QListWidgetItem()
+            item.setTextAlignment(QtCore.Qt.AlignCenter)
+            item.setFlags(QtCore.Qt.ItemIsEnabled)
+            self.listWidget.addItem(item)
+
+        self.StatsButton = QtWidgets.QPushButton(self.centralwidget)
+        self.StatsButton.setGeometry(QtCore.QRect(440, 20, 91, 51))
+        self.StatsButton.setObjectName("StatsButton")
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 587, 21))
@@ -82,6 +83,8 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.menubar.addAction(self.menuFile.menuAction())
+
+        self.StatsButton.clicked.connect(self.pressed)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -101,29 +104,57 @@ class Ui_MainWindow(object):
             self.actComboBox.setItemText(i + 1, _translate("MainWindow", activitytypes[i]))
 
         self.monthComboBox.setItemText(0, _translate("MainWindow", "All Months"))
-        self.monthComboBox.setItemText(1, _translate("MainWindow", "January"))
-        self.monthComboBox.setItemText(2, _translate("MainWindow", "Feburary"))
-        self.monthComboBox.setItemText(3, _translate("MainWindow", "March"))
-        self.monthComboBox.setItemText(4, _translate("MainWindow", "April"))
-        self.monthComboBox.setItemText(5, _translate("MainWindow", "May"))
-        self.monthComboBox.setItemText(6, _translate("MainWindow", "June"))
-        self.monthComboBox.setItemText(7, _translate("MainWindow", "July"))
-        self.monthComboBox.setItemText(8, _translate("MainWindow", "August"))
-        self.monthComboBox.setItemText(9, _translate("MainWindow", "Sepember"))
-        self.monthComboBox.setItemText(10, _translate("MainWindow", "October"))
-        self.monthComboBox.setItemText(11, _translate("MainWindow", "November"))
-        self.monthComboBox.setItemText(12, _translate("MainWindow", "December"))
+        self.monthComboBox.setItemText(1, _translate("MainWindow", "01"))
+        self.monthComboBox.setItemText(2, _translate("MainWindow", "02"))
+        self.monthComboBox.setItemText(3, _translate("MainWindow", "03"))
+        self.monthComboBox.setItemText(4, _translate("MainWindow", "04"))
+        self.monthComboBox.setItemText(5, _translate("MainWindow", "05"))
+        self.monthComboBox.setItemText(6, _translate("MainWindow", "06"))
+        self.monthComboBox.setItemText(7, _translate("MainWindow", "07"))
+        self.monthComboBox.setItemText(8, _translate("MainWindow", "08"))
+        self.monthComboBox.setItemText(9, _translate("MainWindow", "09"))
+        self.monthComboBox.setItemText(10, _translate("MainWindow", "10"))
+        self.monthComboBox.setItemText(11, _translate("MainWindow", "11"))
+        self.monthComboBox.setItemText(12, _translate("MainWindow", "12"))
 
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
-        item = self.listWidget.item(0)
-        item.setText(_translate("MainWindow", "You traveled a total distnance of _ with Strava "))
-        item = self.listWidget.item(1)
-        item.setText(_translate("MainWindow", "You ran a totla distance of _ with Strava."))
+        #item = self.listWidget.item(0)
+        #item.setText(_translate("MainWindow", "You traveled a total distnance of _ with Strava "))
+        #item = self.listWidget.item(1)
+        #item.setText(_translate("MainWindow", "You ran a totla distance of _ with Strava."))
         self.listWidget.setSortingEnabled(__sortingEnabled)
-        
+        self.StatsButton.setText(_translate("MainWindow", "Show Stats"))
+
         self.menuFile.setTitle(_translate("MainWindow", "File"))
 
+    def pressed(self):
+        _translate = QtCore.QCoreApplication.translate
+        total_dist = 0
+        distances = []
+        for i in activitytypes:
+            distances.append(0) #appending a 0 for each activitytype
+        #the first 0 with correspond to the distance for the first activitytype
+        #the second 0 will correspond to the distance for the second activitytype, etc
+
+        for i in range(len(stravaposts['distance'])):
+            if (stravaposts.at[i,'start_date_local'][:4] == self.yearcombobox.currentText() or self.yearcombobox.currentText() == "All") and (stravaposts.at[i,'start_date_local'][5:7] == self.monthComboBox.currentText() or self.monthComboBox.currentText() == "All Months"):
+                total_dist += stravaposts.at[i,'distance']
+
+                for j in range(len(activitytypes)):
+                    if stravaposts.at[i,'type'] == activitytypes[j]:
+                        distances[j] += stravaposts.at[i,'distance']
+
+        total_dist /= 1609.344 #converting meters to miles
+
+        item = self.listWidget.item(0)
+        item.setText(_translate("MainWindow", "You traveled a total distance of " + str(round(total_dist,2)) + " miles with Strava."))
+        #item = self.listWidget.item(1)
+        #item.setText(_translate("MainWindow", "You ran a totla distance of _ with Strava."))
+        for i in range(len(distances)):
+            distances[i] /= 1609.344
+            item = self.listWidget.item(i + 1)
+            item.setText(_translate("MainWindow", "Your " + activitytypes[i]+ " total with Strava was "+ str(round(distances[i],2)) + " miles."))
 
 if __name__ == "__main__":
     import sys
