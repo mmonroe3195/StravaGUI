@@ -130,6 +130,11 @@ class Ui_MainWindow(object):
 
     def pressed(self):
         _translate = QtCore.QCoreApplication.translate
+
+        for i in range(len(activitytypes) + 1):
+            item = self.listWidget.item(i)
+            item.setText(_translate("MainWindow", ""))
+
         total_dist = 0
         distances = []
         for i in activitytypes:
@@ -142,19 +147,23 @@ class Ui_MainWindow(object):
                 total_dist += stravaposts.at[i,'distance']
 
                 for j in range(len(activitytypes)):
-                    if stravaposts.at[i,'type'] == activitytypes[j]:
+                    if stravaposts.at[i,'type'] == activitytypes[j] and (self.actComboBox.currentText() == activitytypes[j] or self.actComboBox.currentText() == "All Activities"):
                         distances[j] += stravaposts.at[i,'distance']
 
         total_dist /= 1609.344 #converting meters to miles
 
-        item = self.listWidget.item(0)
-        item.setText(_translate("MainWindow", "You traveled a total distance of " + str(round(total_dist,2)) + " miles with Strava."))
+
+
+        if(self.actComboBox.currentText() == "All Activities"):
+            item = self.listWidget.item(0)
+            item.setText(_translate("MainWindow", "You traveled a total distance of " + str(round(total_dist,2)) + " miles with Strava."))
         #item = self.listWidget.item(1)
         #item.setText(_translate("MainWindow", "You ran a totla distance of _ with Strava."))
         for i in range(len(distances)):
             distances[i] /= 1609.344
-            item = self.listWidget.item(i + 1)
-            item.setText(_translate("MainWindow", "Your " + activitytypes[i]+ " total with Strava was "+ str(round(distances[i],2)) + " miles."))
+            if self.actComboBox.currentText() == activitytypes[i] or self.actComboBox.currentText() == "All Activities":
+                item = self.listWidget.item(i + 1)
+                item.setText(_translate("MainWindow", "Your " + activitytypes[i]+ " total with Strava was "+ str(round(distances[i],2)) + " miles."))
 
 if __name__ == "__main__":
     import sys

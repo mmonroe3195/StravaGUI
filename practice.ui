@@ -31,7 +31,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
+      <y>70</y>
       <width>101</width>
       <height>22</height>
      </rect>
@@ -67,7 +67,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>261</width>
+      <width>571</width>
       <height>21</height>
      </rect>
     </property>
@@ -77,14 +77,14 @@
      </font>
     </property>
     <property name="text">
-     <string>Select a Year to View Statistics for:</string>
+     <string>Select a year,  activity type, and month option.  Then press &quot;Show Stats&quot; to see your data.</string>
     </property>
    </widget>
    <widget class="QComboBox" name="actComboBox">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>40</y>
+      <x>140</x>
+      <y>70</y>
       <width>101</width>
       <height>22</height>
      </rect>
@@ -113,8 +113,8 @@
    <widget class="QComboBox" name="monthComboBox">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>40</y>
+      <x>290</x>
+      <y>70</y>
       <width>101</width>
       <height>22</height>
      </rect>
@@ -221,13 +221,52 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>20</y>
+      <y>50</y>
       <width>91</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
      <string>Show Stats</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Year:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>50</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Activity Type:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>50</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Month:</string>
     </property>
    </widget>
   </widget>
