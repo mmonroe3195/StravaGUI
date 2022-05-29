@@ -12,7 +12,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Stravaapi import years, activitytypes, stravaposts
 
 class Ui_MainWindow(object):
+    """The class for the Main UI Window"""
+
     def setupUi(self, MainWindow):
+        """Sets up the UI"""
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(587, 426)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -108,6 +111,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.StatsButton.clicked.connect(self.pressed)
+        self.PieChartBtn.clicked.connect(self.pie_pressed)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -142,23 +146,25 @@ class Ui_MainWindow(object):
 
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
-        #item = self.listWidget.item(0)
-        #item.setText(_translate("MainWindow", "You traveled a total distnance of _ with Strava "))
-        #item = self.listWidget.item(1)
-        #item.setText(_translate("MainWindow", "You ran a totla distance of _ with Strava."))
         self.listWidget.setSortingEnabled(__sortingEnabled)
         self.StatsButton.setText(_translate("MainWindow", "Show Stats"))
         self.yearlabel.setText(_translate("MainWindow", "Year:"))
         self.activitylabel.setText(_translate("MainWindow", "Activity Type:"))
         self.monthlabel.setText(_translate("MainWindow", "Month:"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
-
         self.PieChartBtn.setText(_translate("MainWindow", "Pie Chart"))
         self.BarGraphBtn.setText(_translate("MainWindow", "Bar Graph"))
-
         self.menuFile.setTitle(_translate("MainWindow", "File"))
 
+    def pie_pressed(self):
+        "When the PieChartBtn is clicked, this code runs to display the proper pie chart"
+        _translate = QtCore.QCoreApplication.translate
+
+        pass
+
+
     def pressed(self):
+        """When the StatsButton is clicked, this code runs to display the proper stats"""
         _translate = QtCore.QCoreApplication.translate
 
         for i in range(len(activitytypes) + 1):
@@ -171,24 +177,25 @@ class Ui_MainWindow(object):
             distances.append(0) #appending a 0 for each activitytype
         #the first 0 with correspond to the distance for the first activitytype
         #the second 0 will correspond to the distance for the second activitytype, etc
-
         for i in range(len(stravaposts['distance'])):
-            if (stravaposts.at[i,'start_date_local'][:4] == self.yearcombobox.currentText() or self.yearcombobox.currentText() == "All") and (stravaposts.at[i,'start_date_local'][5:7] == self.monthComboBox.currentText() or self.monthComboBox.currentText() == "All Months"):
+            if (stravaposts.at[i,'start_date_local'][:4] == \
+            self.yearcombobox.currentText() or self.yearcombobox.currentText() == "All") \
+            and (stravaposts.at[i,'start_date_local'][5:7] == self.monthComboBox.currentText() \
+            or self.monthComboBox.currentText() == "All Months"):
                 total_dist += stravaposts.at[i,'distance']
 
                 for j in range(len(activitytypes)):
-                    if stravaposts.at[i,'type'] == activitytypes[j] and (self.actComboBox.currentText() == activitytypes[j] or self.actComboBox.currentText() == "All Activities"):
+                    if stravaposts.at[i,'type'] == activitytypes[j] \
+                    and (self.actComboBox.currentText() == activitytypes[j] \
+                    or self.actComboBox.currentText() == "All Activities"):
                         distances[j] += stravaposts.at[i,'distance']
 
         total_dist /= 1609.344 #converting meters to miles
 
-
-
         if(self.actComboBox.currentText() == "All Activities"):
             item = self.listWidget.item(0)
             item.setText(_translate("MainWindow", "You traveled a total distance of " + str(round(total_dist,2)) + " miles with Strava."))
-        #item = self.listWidget.item(1)
-        #item.setText(_translate("MainWindow", "You ran a totla distance of _ with Strava."))
+
         for i in range(len(distances)):
             distances[i] /= 1609.344
             if self.actComboBox.currentText() == activitytypes[i] or self.actComboBox.currentText() == "All Activities":
