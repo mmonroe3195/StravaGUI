@@ -51,10 +51,27 @@ stravaposts = stravaposts[cols]
 years = []
 months = []
 
+month_dict = {
+        '01':'Jan',
+		'02':'Feb',
+		'03':'March',
+		'04':'April',
+		'05':'May',
+		'06':'June',
+		'07':'July',
+		'08':'Aug',
+		'09':'Sept',
+		'10':'Oct',
+		'11':'Nov',
+		'12':'Dec'}
+
 #extracting the month and year from start_date_local
 for i in range(len(stravaposts['start_date_local'])):
     years.append(stravaposts.at[i,'start_date_local'][:4])
-    months.append(stravaposts.at[i,'start_date_local'][5:7])
+    curr_month = stravaposts.at[i,'start_date_local'][5:7]
+
+    #gets the month number from the month name and appends it to month list
+    months.append(month_dict[curr_month])
 
 #adding year and month columns to the dataset
 stravaposts.insert(8, "year", years, True)

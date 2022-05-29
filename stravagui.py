@@ -17,20 +17,20 @@ class Ui_MainWindow(object):
         self.label1.setText("")
         self.label1.setObjectName("label1")
         self.yearcombobox = QtWidgets.QComboBox(self.centralwidget)
-        self.yearcombobox.setGeometry(QtCore.QRect(10, 70, 115, 22))
+        self.yearcombobox.setGeometry(QtCore.QRect(56, 80, 101, 22))
         self.yearcombobox.setObjectName("yearcombobox")
 
         for i in range(len(years) + 1):
             self.yearcombobox.addItem("")
 
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(10, 10, 261, 21))
+        self.label.setGeometry(QtCore.QRect(10, 10, 700, 21))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.actComboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.actComboBox.setGeometry(QtCore.QRect(140, 70, 115, 22))
+        self.actComboBox.setGeometry(QtCore.QRect(235, 80, 115, 22))
         self.actComboBox.setObjectName("actComboBox")
 
         for i in range(len(activitytypes) + 1):
@@ -38,7 +38,7 @@ class Ui_MainWindow(object):
 
         self.actComboBox.setItemText(3, "")
         self.monthComboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.monthComboBox.setGeometry(QtCore.QRect(290, 70, 115, 22))
+        self.monthComboBox.setGeometry(QtCore.QRect(430, 80, 108, 22))
         self.monthComboBox.setObjectName("monthComboBox")
         self.monthComboBox.addItem("")
         self.monthComboBox.addItem("")
@@ -63,34 +63,25 @@ class Ui_MainWindow(object):
             item.setFlags(QtCore.Qt.ItemIsEnabled)
             self.listWidget.addItem(item)
 
-        self.StatsButton = QtWidgets.QPushButton(self.centralwidget)
-        self.StatsButton.setGeometry(QtCore.QRect(440, 50, 100, 51))
-        self.StatsButton.setObjectName("StatsButton")
-
         self.yearlabel = QtWidgets.QLabel(self.centralwidget)
-        self.yearlabel.setGeometry(QtCore.QRect(16, 50, 60, 16))
+        self.yearlabel.setGeometry(QtCore.QRect(60, 60, 60, 16))
         self.yearlabel.setObjectName("yearlabel")
-
         self.activitylabel = QtWidgets.QLabel(self.centralwidget)
-        self.activitylabel.setGeometry(QtCore.QRect(146, 50, 91, 16))
+        self.activitylabel.setGeometry(QtCore.QRect(240, 60, 91, 16))
         self.activitylabel.setObjectName("activitylabel")
-
         self.monthlabel = QtWidgets.QLabel(self.centralwidget)
-        self.monthlabel.setGeometry(QtCore.QRect(296, 50, 71, 16))
+        self.monthlabel.setGeometry(QtCore.QRect(435, 60, 71, 16))
         self.monthlabel.setObjectName("monthlabel")
 
         self.PieChartBtn = QtWidgets.QPushButton(self.centralwidget)
-        self.PieChartBtn.setEnabled(False)
         self.PieChartBtn.setGeometry(QtCore.QRect(190, 320, 91, 51))
         self.PieChartBtn.setCheckable(False)
         self.PieChartBtn.setDefault(False)
         self.PieChartBtn.setObjectName("PieChartBtn")
         self.BarGraphBtn = QtWidgets.QPushButton(self.centralwidget)
-        self.BarGraphBtn.setEnabled(False)
         self.BarGraphBtn.setGeometry(QtCore.QRect(300, 320, 91, 51))
         self.BarGraphBtn.setObjectName("BarGraphBtn")
         self.pieSettingComboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.pieSettingComboBox.setEnabled(False)
         self.pieSettingComboBox.setGeometry(QtCore.QRect(10, 340, 171, 22))
         self.pieSettingComboBox.setObjectName("yearcombobox_2")
         self.pieSettingComboBox.addItem("")
@@ -112,11 +103,13 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.menubar.addAction(self.menuFile.menuAction())
 
-        self.StatsButton.clicked.connect(self.stats_pressed)
         self.PieChartBtn.clicked.connect(self.pie_pressed)
-
+        self.actComboBox.activated.connect(self.update_stats)
+        self.yearcombobox.activated.connect(self.update_stats)
+        self.monthComboBox.activated.connect(self.update_stats)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.update_stats()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -126,30 +119,29 @@ class Ui_MainWindow(object):
         for i in range(len(years)):
             self.yearcombobox.setItemText(i + 1, _translate("MainWindow", years[i]))
 
-        self.label.setText(_translate("MainWindow", "Select a Year, Activity Type, and Month to View Statistics for:"))
+        self.label.setText(_translate("MainWindow", "Select a Year,  Activity Type,  and Month to View Your Strava Statistics for it:"))
         self.actComboBox.setItemText(0, _translate("MainWindow", "All Activities"))
 
         for i in range(len(activitytypes)):
             self.actComboBox.setItemText(i + 1, _translate("MainWindow", activitytypes[i]))
 
         self.monthComboBox.setItemText(0, _translate("MainWindow", "All Months"))
-        self.monthComboBox.setItemText(1, _translate("MainWindow", "01"))
-        self.monthComboBox.setItemText(2, _translate("MainWindow", "02"))
-        self.monthComboBox.setItemText(3, _translate("MainWindow", "03"))
-        self.monthComboBox.setItemText(4, _translate("MainWindow", "04"))
-        self.monthComboBox.setItemText(5, _translate("MainWindow", "05"))
-        self.monthComboBox.setItemText(6, _translate("MainWindow", "06"))
-        self.monthComboBox.setItemText(7, _translate("MainWindow", "07"))
-        self.monthComboBox.setItemText(8, _translate("MainWindow", "08"))
-        self.monthComboBox.setItemText(9, _translate("MainWindow", "09"))
-        self.monthComboBox.setItemText(10, _translate("MainWindow", "10"))
-        self.monthComboBox.setItemText(11, _translate("MainWindow", "11"))
-        self.monthComboBox.setItemText(12, _translate("MainWindow", "12"))
+        self.monthComboBox.setItemText(1, _translate("MainWindow", "Jan"))
+        self.monthComboBox.setItemText(2, _translate("MainWindow", "Feb"))
+        self.monthComboBox.setItemText(3, _translate("MainWindow", "March"))
+        self.monthComboBox.setItemText(4, _translate("MainWindow", "April"))
+        self.monthComboBox.setItemText(5, _translate("MainWindow", "May"))
+        self.monthComboBox.setItemText(6, _translate("MainWindow", "June"))
+        self.monthComboBox.setItemText(7, _translate("MainWindow", "July"))
+        self.monthComboBox.setItemText(8, _translate("MainWindow", "Aug"))
+        self.monthComboBox.setItemText(9, _translate("MainWindow", "Sept"))
+        self.monthComboBox.setItemText(10, _translate("MainWindow", "Oct"))
+        self.monthComboBox.setItemText(11, _translate("MainWindow", "Nov"))
+        self.monthComboBox.setItemText(12, _translate("MainWindow", "Dec"))
 
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
         self.listWidget.setSortingEnabled(__sortingEnabled)
-        self.StatsButton.setText(_translate("MainWindow", "Show Stats"))
         self.yearlabel.setText(_translate("MainWindow", "Year:"))
         self.activitylabel.setText(_translate("MainWindow", "Activity Type:"))
         self.monthlabel.setText(_translate("MainWindow", "Month:"))
@@ -194,8 +186,7 @@ class Ui_MainWindow(object):
         pie.legend(bbox_to_anchor=(1, 1.02))
         plt.show() #shows the pie chart
 
-    def stats_pressed(self):
-        """When the StatsButton is clicked, this code runs to display the proper stats"""
+    def update_stats(self):
         _translate = QtCore.QCoreApplication.translate
 
         for i in range(len(activitytypes) + 1):
@@ -232,10 +223,6 @@ class Ui_MainWindow(object):
             if self.actComboBox.currentText() == activitytypes[i] or self.actComboBox.currentText() == "All Activities":
                 item = self.listWidget.item(i + 1)
                 item.setText(_translate("MainWindow", "Your " + activitytypes[i]+ " total with Strava was "+ str(round(distances[i],2)) + " miles."))
-
-        self.PieChartBtn.setEnabled(True)
-        self.BarGraphBtn.setEnabled(True)
-        self.pieSettingComboBox.setEnabled(True)
 
 if __name__ == "__main__":
     import sys
