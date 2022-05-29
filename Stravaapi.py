@@ -48,20 +48,26 @@ cols = ['name', 'type', 'distance', 'moving_time',
          'start_date_local', 'average_cadence', 'average_heartrate',
        ]
 stravaposts = stravaposts[cols]
-
-#getting the years on activities
-years = [stravaposts.at[0, 'start_date_local'][:4]]
-activitytypes = [stravaposts.at[0, 'type']]
+years = []
+months = []
 for i in range(len(stravaposts['start_date_local'])):
-    #adds a new year if the year hasn't been recorded yet
-    if stravaposts.at[i,'start_date_local'][:4] != years[-1]:
-        years.append(stravaposts.at[i,'start_date_local'][:4])
+    years.append(stravaposts.at[i,'start_date_local'][:4])
+    months.append(stravaposts.at[i,'start_date_local'][5:7])
 
+stravaposts.insert(8, "year", years, True)
+stravaposts.insert(9, "month", months, True)
+
+#getting the years of activities and activitytypes
+years = [stravaposts.at[0, 'year']]
+activitytypes = [stravaposts.at[0, 'type']]
+for i in range(len(stravaposts['year'])):
+    #adds a new year if the year hasn't been recorded yet
+    if stravaposts.at[i,'year'] != years[-1]:
+        years.append(stravaposts.at[i,'year'])
+
+    #adds a new type if the activity time has not been recorded yet
     if stravaposts.at[i, 'type'] not in activitytypes:
        activitytypes.append(stravaposts.at[i,'type'])
 
-stravaposts[stravaposts.type != 'Ride'].groupby(['type']).sum().plot(kind='pie', y='distance', autopct='%1.0f%%')
-plt.show() #shows the pie chart
-
-
-#plt.show();
+#stravaposts[stravaposts.type != 'Ride'].groupby(['type']).sum().plot(kind='pie', y='distance', autopct='%1.0f%%')
+#plt.show() #shows the pie chart
