@@ -155,10 +155,10 @@ class Ui_MainWindow(object):
         self.monthlabel.setText(_translate("MainWindow", "Month:"))
         self.PieChartBtn.setText(_translate("MainWindow", "Pie Chart"))
         self.BarGraphBtn.setText(_translate("MainWindow", "Bar Graph"))
-        self.pieSettingComboBox.setItemText(0, _translate("MainWindow", "Compare Activity Types"))
-        self.pieSettingComboBox.setItemText(1, _translate("MainWindow", "Compare Years"))
-        self.pieSettingComboBox.setItemText(2, _translate("MainWindow", "Compare Months"))
-        self.piesettinglabel.setText(_translate("MainWindow", "Pie Chart Settings:"))
+        self.yearcombobox_2.setItemText(0, _translate("MainWindow", "Compare Activity Types"))
+        self.yearcombobox_2.setItemText(1, _translate("MainWindow", "Compare Years"))
+        self.yearcombobox_2.setItemText(2, _translate("MainWindow", "Compare Months"))
+        self.yearlabel_2.setText(_translate("MainWindow", "Pie Chart Settings:"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
 
 

@@ -89,6 +89,16 @@ class Ui_MainWindow(object):
         self.BarGraphBtn.setEnabled(False)
         self.BarGraphBtn.setGeometry(QtCore.QRect(300, 320, 91, 51))
         self.BarGraphBtn.setObjectName("BarGraphBtn")
+        self.pieSettingComboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.pieSettingComboBox.setEnabled(False)
+        self.pieSettingComboBox.setGeometry(QtCore.QRect(10, 340, 171, 22))
+        self.pieSettingComboBox.setObjectName("yearcombobox_2")
+        self.pieSettingComboBox.addItem("")
+        self.pieSettingComboBox.addItem("")
+        self.pieSettingComboBox.addItem("")
+        self.piesettinglabel = QtWidgets.QLabel(self.centralwidget)
+        self.piesettinglabel.setGeometry(QtCore.QRect(17, 320, 141, 16))
+        self.piesettinglabel.setObjectName("piesettinglabel")
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -116,7 +126,7 @@ class Ui_MainWindow(object):
         for i in range(len(years)):
             self.yearcombobox.setItemText(i + 1, _translate("MainWindow", years[i]))
 
-        self.label.setText(_translate("MainWindow", "Select a Year to View Statistics for:"))
+        self.label.setText(_translate("MainWindow", "Select a Year, Activity Type, and Month to View Statistics for:"))
         self.actComboBox.setItemText(0, _translate("MainWindow", "All Activities"))
 
         for i in range(len(activitytypes)):
@@ -146,25 +156,42 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.PieChartBtn.setText(_translate("MainWindow", "Pie Chart"))
         self.BarGraphBtn.setText(_translate("MainWindow", "Bar Graph"))
+
+        self.pieSettingComboBox.setItemText(0, _translate("MainWindow", "Activity Comparison"))
+        self.pieSettingComboBox.setItemText(1, _translate("MainWindow", "Year Comparison"))
+        self.pieSettingComboBox.setItemText(2, _translate("MainWindow", "Month Comparison"))
+        self.piesettinglabel.setText(_translate("MainWindow", "Pie Chart Settings:"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
 
     def pie_pressed(self):
         "When the PieChartBtn is clicked, this code runs to display the proper pie chart"
         _translate = QtCore.QCoreApplication.translate
 
-
         filtered = stravaposts
         #filtering data based on activities
         if self.actComboBox.currentText() != "All Activities":
             filtered = filtered[filtered.type == self.actComboBox.currentText()]
 
+        #filtering data based on month
         if self.monthComboBox.currentText() != "All Months":
             filtered = filtered[filtered.month == self.monthComboBox.currentText()]
 
+        #filtering data based on year
         if self.yearcombobox.currentText() != "All":
             filtered = filtered[filtered.year == self.yearcombobox.currentText()]
 
-        filtered.groupby(['type']).sum().plot(kind='pie', y='distance', autopct='%1.0f%%')
+        #altering pie chart based on pie settings
+        if self.pieSettingComboBox.currentText() == "Activity Comparison":
+            pie = filtered.groupby(['type']).sum().plot(kind = 'pie', title = "Activity Comparison", y = 'distance', autopct='%1.0f%%')
+
+        elif self.pieSettingComboBox.currentText() == "Month Comparison":
+            pie = filtered.groupby(['month']).sum().plot(kind = 'pie', title = "Month Comparison", y = 'distance', autopct='%1.0f%%')
+
+        else:
+            pie = filtered.groupby(['year']).sum().plot(kind = 'pie', title = "Year Comparison", y = 'distance', autopct='%1.0f%%')
+
+        #moving legend location so it does not overlap pie chart
+        pie.legend(bbox_to_anchor=(1, 1.02))
         plt.show() #shows the pie chart
 
     def stats_pressed(self):
@@ -208,6 +235,7 @@ class Ui_MainWindow(object):
 
         self.PieChartBtn.setEnabled(True)
         self.BarGraphBtn.setEnabled(True)
+        self.pieSettingComboBox.setEnabled(True)
 
 if __name__ == "__main__":
     import sys

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>587</width>
-    <height>426</height>
+    <width>588</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -310,13 +310,51 @@
      <string>Bar Graph</string>
     </property>
    </widget>
+   <widget class="QComboBox" name="yearcombobox_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>340</y>
+      <width>171</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Compare Activity Types</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Compare Years</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Compare Months</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="yearlabel_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>320</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pie Chart Settings:</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>587</width>
+     <width>588</width>
      <height>21</height>
     </rect>
    </property>

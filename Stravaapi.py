@@ -50,10 +50,13 @@ cols = ['name', 'type', 'distance', 'moving_time',
 stravaposts = stravaposts[cols]
 years = []
 months = []
+
+#extracting the month and year from start_date_local
 for i in range(len(stravaposts['start_date_local'])):
     years.append(stravaposts.at[i,'start_date_local'][:4])
     months.append(stravaposts.at[i,'start_date_local'][5:7])
 
+#adding year and month columns to the dataset
 stravaposts.insert(8, "year", years, True)
 stravaposts.insert(9, "month", months, True)
 
