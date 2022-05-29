@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 from Stravaapi import years, activitytypes, stravaposts
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -159,32 +160,55 @@ class Ui_MainWindow(object):
         "When the PieChartBtn is clicked, this code runs to display the proper pie chart"
         _translate = QtCore.QCoreApplication.translate
 
-        filtered = stravaposts
-        #filtering data based on activities
-        if self.actComboBox.currentText() != "All Activities":
-            filtered = filtered[filtered.type == self.actComboBox.currentText()]
-
-        #filtering data based on month
-        if self.monthComboBox.currentText() != "All Months":
-            filtered = filtered[filtered.month == self.monthComboBox.currentText()]
-
-        #filtering data based on year
-        if self.yearcombobox.currentText() != "All":
-            filtered = filtered[filtered.year == self.yearcombobox.currentText()]
-
-        #altering pie chart based on pie settings
-        if self.pieSettingComboBox.currentText() == "Activity Comparison":
-            pie = filtered.groupby(['type']).sum().plot(kind = 'pie', title = "Activity Comparison", y = 'distance', autopct='%1.0f%%')
-
-        elif self.pieSettingComboBox.currentText() == "Month Comparison":
-            pie = filtered.groupby(['month']).sum().plot(kind = 'pie', title = "Month Comparison", y = 'distance', autopct='%1.0f%%')
-
+        if self.yearcombobox.currentText() != "All" and self.pieSettingComboBox.currentText() == 'Year Comparison':
+            self.msg = QMessageBox()
+            self.msg.setIcon(QMessageBox.Information)
+            self.msg.setText("You can't display a pie chart that has a year comparison when you have a specific year selected.  Change the Year to 'All' and click the Pie Chart button again to proceed.")
+            self.msg.setWindowTitle("Error")
+            # Display the message box
+            self.msg.show()
+        elif self.monthComboBox.currentText() != 'All Months' and self.pieSettingComboBox.currentText() == 'Month Comparison':
+            self.msg = QMessageBox()
+            self.msg.setIcon(QMessageBox.Information)
+            self.msg.setText("You can't display a pie chart that has a month comparison when you have a specific month selected.  Change the Month to 'All Months' and click the Pie Chart button again to proceed.")
+            self.msg.setWindowTitle("Error")
+            # Display the message box
+            self.msg.show()
+        elif self.actComboBox.currentText() != 'All Activities' and self.pieSettingComboBox.currentText() == 'Activity Comparison':
+            self.msg = QMessageBox()
+            self.msg.setIcon(QMessageBox.Information)
+            self.msg.setText("You can't display a pie chart that has an activity comparison when you have a specific activity selected.  Change the Actvity to 'All Activities' and click the Pie Chart button again to proceed.")
+            self.msg.setWindowTitle("Error")
+            # Display the message box
+            self.msg.show()
         else:
-            pie = filtered.groupby(['year']).sum().plot(kind = 'pie', title = "Year Comparison", y = 'distance', autopct='%1.0f%%')
 
-        #moving legend location so it does not overlap pie chart
-        pie.legend(bbox_to_anchor=(1, 1.02))
-        plt.show() #shows the pie chart
+            filtered = stravaposts
+            #filtering data based on activities
+            if self.actComboBox.currentText() != "All Activities":
+                filtered = filtered[filtered.type == self.actComboBox.currentText()]
+
+            #filtering data based on month
+            if self.monthComboBox.currentText() != "All Months":
+                filtered = filtered[filtered.month == self.monthComboBox.currentText()]
+
+            #filtering data based on year
+            if self.yearcombobox.currentText() != "All":
+                filtered = filtered[filtered.year == self.yearcombobox.currentText()]
+
+            #altering pie chart based on pie settings
+            if self.pieSettingComboBox.currentText() == "Activity Comparison":
+                pie = filtered.groupby(['type']).sum().plot(kind = 'pie', title = "Activity Comparison", y = 'distance', autopct='%1.0f%%')
+
+            elif self.pieSettingComboBox.currentText() == "Month Comparison":
+                pie = filtered.groupby(['month']).sum().plot(kind = 'pie', title = "Month Comparison", y = 'distance', autopct='%1.0f%%')
+
+            else:
+                pie = filtered.groupby(['year']).sum().plot(kind = 'pie', title = "Year Comparison", y = 'distance', autopct='%1.0f%%')
+
+            #moving legend location so it does not overlap pie chart
+            pie.legend(bbox_to_anchor=(1, 1.02))
+            plt.show() #shows the pie chart
 
     def update_stats(self):
         _translate = QtCore.QCoreApplication.translate
