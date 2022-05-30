@@ -167,6 +167,7 @@ class Ui_MainWindow(object):
             self.msg.setWindowTitle("Error")
             # Display the message box
             self.msg.show()
+
         elif self.monthComboBox.currentText() != 'All Months' and self.pieSettingComboBox.currentText() == 'Month Comparison':
             self.msg = QMessageBox()
             self.msg.setIcon(QMessageBox.Information)
@@ -174,6 +175,7 @@ class Ui_MainWindow(object):
             self.msg.setWindowTitle("Error")
             # Display the message box
             self.msg.show()
+
         elif self.actComboBox.currentText() != 'All Activities' and self.pieSettingComboBox.currentText() == 'Activity Comparison':
             self.msg = QMessageBox()
             self.msg.setIcon(QMessageBox.Information)
@@ -182,7 +184,7 @@ class Ui_MainWindow(object):
             # Display the message box
             self.msg.show()
         else:
-
+            self.msg = QMessageBox() #needed to prevent message from popping up again
             filtered = stravaposts
             #filtering data based on activities
             if self.actComboBox.currentText() != "All Activities":
