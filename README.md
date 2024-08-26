@@ -1,6 +1,6 @@
 # Strava-API
 
-Creating a Strava API for my Strava Account.
+Using the Strava API to create an interactive GUI application to display strava statistics from my account. Can filter and display data by activity type, year, and month. Filtered data can be visually viewed in a pie chart.
 
 
 Borrowed Lines 9-27 in Stravaapi.py from franchyze923's YouTube tutorial:
